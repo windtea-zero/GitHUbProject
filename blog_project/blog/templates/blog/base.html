@@ -1,0 +1,103 @@
+{% load static %}
+<html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}基本模板{% endblock %}</title>
+
+    <!-- Bootstrap -->
+    <link href="{% static 'bootstrap-3.3.7-dist/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/blog_nav.css' %}" rel="stylesheet">
+    {% block css %}
+    {% endblock %}
+</head>
+<body>
+<nav class="navbar navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="my-nav"
+                    aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#"><img id="logo_img" src="{% static 'images/logo.jpg' %}"></a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="my-nav">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="{% url 'blog:blog_index' %}">博客</a></li>
+                <li><a href="#">关于博主</a></li>
+                <li><a href="#">联系我们</a></li>
+            </ul>
+            <form class="navbar-form navbar-left" action="{% url 'blog:blog_search' %}" method="get">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Search" name="keyword">
+                </div>
+                <button type="submit" class="btn btn-default">搜索</button>
+            </form>
+{#            <ul class="nav navbar-nav navbar-right">#}
+{#                {% if request.session.login %}#}
+{#                    {{ request.session.screen_name}}&nbsp;&nbsp;&nbsp;#}
+{#                    <p><a href="/logout/?next={{ request.path }}">注销</a></p>#}
+{#                {% else %}#}
+{#                    <li>#}
+{#                        <a href="{% url 'blog:blog_login' %}">登录</a>#}
+{#                    </li>#}
+{#                {% endif %}#}
+{#            </ul>#}
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+<div class="container">
+    <div class="row">
+        <div class="col-md-9">
+            {% block content %}{% endblock %}
+        </div>
+        <div class="col-md-3">
+            {% block rightSide %}{% endblock %}
+        </div>
+    </div>
+
+</div>
+
+<div id="backTop" style="width: 50px;height: 50px;position: fixed;bottom: 100px;right: 50px;background-color: #2aabd2;text-align: center;border-radius: 10px;">
+    <i class="glyphicon glyphicon-arrow-up" style="color: white;font-size: 25px;margin:10px auto"></i>
+</div>
+<footer>
+    <div class="footer" role="navigation">
+        <div class="container">
+            <div class="navbar-text">
+                <ul class="footer-text">
+                    <li><a href="">主页</a></li>
+                    <li><a href="" target="_blank">联系我们</a></li>
+                    <li><a href="">关于我们</a></li>
+                    <li><a href="" target="_blank">文档支持</a></li>
+                    <li><a href="/blog">博客首页</a></li>
+                    <!--2020-07-15 17:09:48 +0000-->
+                </ul>
+                <p>Copyright © 2020 冰弈空间 Last updated Wed, Jul 15, 2020</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+<script src="{% static 'jquery-3.1.1.min.js' %}"></script>
+<script src="{% static 'bootstrap-3.3.7-dist/js/bootstrap.min.js' %}"></script>
+<script>
+    $("#backTop").click(function () {
+        window.scrollTo(0,0)
+    })
+</script>
+{% block src %}
+{% endblock %}
+</body>
+
+
+</html>

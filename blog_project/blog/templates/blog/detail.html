@@ -1,0 +1,91 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+
+{% block title %}博客详情页面{% endblock %}
+{% block css %}
+    <link href="{% static 'css/github.css' %}" rel="stylesheet"/>
+{% endblock %}
+{% block content %}
+    {#    {% load comments %}#}
+    <h1>{{ entry.title }}</h1>
+    <p>
+        <strong>作者：{{ entry.author }}</strong>
+        &nbsp;&nbsp;
+        {{ entry.created_time|date:'Y年m月d日' }}
+        &nbsp;&nbsp;分类：
+        {% for category in entry.category.all %}
+            &nbsp;&nbsp;<a href="{% url 'blog:blog_category' category.id %}">{{ category.name }}</a>
+        {% endfor %}
+        &nbsp;&nbsp;标签：
+        {% for tag in entry.tags.all %}
+            &nbsp;&nbsp;<a href="{% url 'blog:blog_tag' tag.id %}">{{ tag.name }}</a>
+        {% endfor %}
+        &nbsp;&nbsp;浏览量:{{ entry.visiting }}
+    </p>
+    <hr/>
+    {% if entry.img.url %}
+        <img src="{{ entry.img.url }}" width="300px"/>
+    {% endif %}
+    <hr/>
+    <p>
+        {{ entry.toc|safe }}
+        {{ entry.body|safe }}
+    </p>
+    <hr/>
+    {#                <div class="row">#}
+    {#                    {% get_comment_form for entry as form %}#}
+    {#                    {% get_comment_count for entry as comment_count %}#}
+    {#                    <h3>评论总数：{{ comment_count }}</h3>#}
+    {#                </div>#}
+    {#                <div class="row">#}
+    {#                    <form class="form-horizontal" action="{% comment_form_target %}" method="post">#}
+    {#                        {% csrf_token %}#}
+    {#                        <div class="form-group">#}
+    {#                            <label for="input_title" class="pull-left control-label">评论标题：</label>#}
+    {#                            <div class="col-sm-6">#}
+    {#                                <input class="form-control" name="comment_title" placeholder="请输入标题" required>#}
+    {#                            </div>#}
+    {#                        </div>#}
+    {#                        <div class="form-group">#}
+    {#                            <label for="input_comment" class="pull-left control-label">评论内容：</label>#}
+    {#                            <div class="col-sm-6">#}
+    {#                                <textarea style="resize: none" class="form-control" name="comment" placeholder="请输入内容"#}
+    {#                                          required></textarea>#}
+    {#                            </div>#}
+    {#                        </div>#}
+    {#                        <span style="display: none">{{ form.honeypot }}</span>#}
+    {#                        {{ form.content.type }}#}
+    {#                        {{ form.object_pk }}#}
+    {#                        {{ form.timestamp }}#}
+    {#                        {{ form.security_hash }}#}
+    {#                        <input type="hidden" name="next" value="{% url 'blog:blog_detail' entry.id %}">#}
+    {#                        <input name="parent_id" type="hidden" value="-1">#}
+    {#                        <input name="level" type="hidden" value="0">#}
+    {#                        <div class="form-group col-sm-7">#}
+    {#                            <div class="pull-left" style="margin-left: 68px;">#}
+    {#                                <button type="reset" class="btn btn-default"><span#}
+    {#                                        class="glyphicon glyphicon-repeat"></span>&nbsp;&nbsp;重置#}
+    {#                                </button>#}
+    {#                            </div>#}
+    {#                            <div class="pull-right" style="margin-right: 12px;">#}
+    {#                                <button type="submit" class="btn btn-success" id="id_submit"><span#}
+    {#                                        class="glyphicon glyphicon-send"></span>&nbsp;&nbsp;评论#}
+    {#                                </button>#}
+    {#                            </div>#}
+    {#                        </div>#}
+    {##}
+    {##}
+    {#                    </form>#}
+    {#                </div>#}
+
+{% endblock %}
+{% block rightSide %}
+    {% block toc %}
+        <div class="widget">
+            <h3>文章目录:</h3>
+            {{ entry.toc|safe }}
+        </div>
+    {% endblock %}
+    <hr/>
+    {% include 'blog/right_side_bar.html' %}
+{% endblock %}
